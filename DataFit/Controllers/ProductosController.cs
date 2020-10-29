@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DataFit.DataBase.Contexts;
 using DataFit.DataBase.Models;
+using DataFit.Core.Productos;
 
 namespace DataFit.Site.Controllers
 {
@@ -14,15 +15,18 @@ namespace DataFit.Site.Controllers
     {
         private readonly DataFitDbContext _context;
 
-        public ProductosController(DataFitDbContext context)
+        private readonly IProductosManager productoManager;
+
+        public ProductosController(IProductosManager productoManager)
         {
-            _context = context;
+            this.productoManager = productoManager;
         }
 
         // GET: Productos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Productos.ToListAsync());
+            var c = await this.productoManager.GetAllAsync();
+            return View(c);
         }
 
         // GET: Productos/Details/5
@@ -33,8 +37,7 @@ namespace DataFit.Site.Controllers
                 return NotFound();
             }
 
-            var productos = await _context.Productos
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var productos = await productoManager.FindByIdAsync(id.Value);
             if (productos == null)
             {
                 return NotFound();
@@ -56,10 +59,11 @@ namespace DataFit.Site.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Descripcion,PrecioReal,PrecioVenta,FechaCreacion,FechaModificacion")] Productos productos)
         {
+
             if (ModelState.IsValid)
             {
-                _context.Add(productos);
-                await _context.SaveChangesAsync();
+                await productoManager.CreateAsync(productos);
+
                 return RedirectToAction(nameof(Index));
             }
             return View(productos);
@@ -73,7 +77,7 @@ namespace DataFit.Site.Controllers
                 return NotFound();
             }
 
-            var productos = await _context.Productos.FindAsync(id);
+            var productos = await productoManager.FindByIdAsync(id.Value);
             if (productos == null)
             {
                 return NotFound();
@@ -97,12 +101,14 @@ namespace DataFit.Site.Controllers
             {
                 try
                 {
-                    _context.Update(productos);
-                    await _context.SaveChangesAsync();
+
+                    await productoManager.EditAsync(productos);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductosExists(productos.Id))
+                    var t = await productoManager.FindByIdAsync(id);
+
+                    if (t == null)
                     {
                         return NotFound();
                     }
@@ -124,14 +130,13 @@ namespace DataFit.Site.Controllers
                 return NotFound();
             }
 
-            var productos = await _context.Productos
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (productos == null)
+            var clientes = await productoManager.FindByIdAsync(id.Value);
+            if (clientes == null)
             {
                 return NotFound();
             }
 
-            return View(productos);
+            return View(clientes);
         }
 
         // POST: Productos/Delete/5
@@ -139,9 +144,8 @@ namespace DataFit.Site.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var productos = await _context.Productos.FindAsync(id);
-            _context.Productos.Remove(productos);
-            await _context.SaveChangesAsync();
+            var productos = await productoManager.FindByIdAsync(id);
+            await productoManager.DeleteAsync(productos);
             return RedirectToAction(nameof(Index));
         }
 
