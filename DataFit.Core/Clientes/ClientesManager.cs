@@ -32,6 +32,13 @@ namespace DataFit.Core.Clientes
             return true;
         }
 
+        public string Create(string data) {
+
+
+            return "hola " + data;
+        
+        }
+
         public async Task<bool> DeleteAsync(DataBase.Models.Clientes cliente)
         {
             try
