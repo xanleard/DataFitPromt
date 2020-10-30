@@ -13,7 +13,7 @@ namespace DataFit.Site.Controllers
 {
     public class ProductosController : Controller
     {
-        private readonly DataFitDbContext _context;
+        //private readonly DataFitDbContext _context;
 
         private readonly IProductosManager productoManager;
 
@@ -147,11 +147,6 @@ namespace DataFit.Site.Controllers
             var productos = await productoManager.FindByIdAsync(id);
             await productoManager.DeleteAsync(productos);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ProductosExists(int id)
-        {
-            return _context.Productos.Any(e => e.Id == id);
-        }
+        }      
     }
 }
