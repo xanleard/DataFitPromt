@@ -52,6 +52,7 @@ namespace DataFit.Core.Productos
 
         public async Task<bool> EditAsync(DataBase.Models.Productos producto)
         {
+            producto.FechaModificacion = DateTime.Now;
             try
             {
                 productosrepository.Update(producto);
