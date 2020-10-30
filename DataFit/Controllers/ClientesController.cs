@@ -13,7 +13,7 @@ namespace DataFit.Site.Controllers
 {
     public class ClientesController : Controller
     {
-        private readonly DataFitDbContext _context;
+        //private readonly DataFitDbContext _context;
     
         private readonly IClientesManager clientesManager;
       
