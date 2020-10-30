@@ -2,9 +2,8 @@
 
 namespace DataFit.DomainService
 {
-    public class Class1
+    public class ProductoLog
     {
-
         public bool ValidarPrecio(int precio)
         {
             if (precio > 0)
