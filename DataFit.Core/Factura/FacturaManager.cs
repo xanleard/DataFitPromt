@@ -1,4 +1,6 @@
 ﻿using DataFit.DataBase.Models;
+using DataFit.DataBase.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,29 +10,71 @@ namespace DataFit.Core.Factura
 {
     public class FacturaManager : IFacturasManager
     {
-        public Task<bool> CreateAsync(Facturas factura)
+        private readonly IRepository<Facturas> facturarepository;
+
+
+        public FacturaManager(IRepository<Facturas> facturarepository)
         {
-            throw new NotImplementedException();
+            this.facturarepository = facturarepository;
         }
 
-        public Task<bool> DeleteAsync(Facturas factura)
+        public async Task<bool> CreateAsync(Facturas factura)
         {
-            throw new NotImplementedException();
+            try
+            {
+                facturarepository.Create(factura);
+                await facturarepository.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+
+            return true;
         }
 
-        public Task<bool> EditAsync(Facturas factura)
+        public async Task<bool> DeleteAsync(Facturas factura)
         {
-            throw new NotImplementedException();
+            try
+            {
+                facturarepository.Delete(factura);
+                await facturarepository.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+
+            return true;
         }
 
-        public Task<Facturas> FindByIdAsync(int id)
+        public async Task<bool> EditAsync(Facturas factura)
         {
-            throw new NotImplementedException();
+            try
+            {
+                facturarepository.Update(factura);
+                await facturarepository.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+
+            return true;
         }
 
-        public Task<IEnumerable<Facturas>> GetAllAsync()
+        public async Task<Facturas> FindByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var clientes = await facturarepository.FirstOrDefaultAsync(m => m.Id == id);
+            return clientes;
+        }
+
+        public async Task<IEnumerable<Facturas>> GetAllAsync()
+        {
+            return await facturarepository.All().ToListAsync();
         }
     }
 }

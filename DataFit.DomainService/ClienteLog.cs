@@ -15,5 +15,25 @@ namespace DataFit.DomainService
 
         }
 
+        public bool ValidarDireccion(string direccion)
+        {
+            if (direccion != "")
+            {
+                return true;
+            }
+            return false;
+
+        }
+
+
+        public bool ValidarTelefono(int telefono)
+        {
+            if (telefono > 0)
+            {
+                return true;
+            }
+            return false;
+
+        }
     }
 }

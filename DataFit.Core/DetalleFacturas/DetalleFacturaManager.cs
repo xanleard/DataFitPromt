@@ -1,4 +1,6 @@
 ﻿using DataFit.DataBase.Models;
+using DataFit.DataBase.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,29 +10,72 @@ namespace DataFit.Core.DetalleFacturas
 {
     public class DetalleFacturaManager : IDetalleFacturaManager
     {
-        public Task<bool> CreateAsync(DetalleFactura factura)
+
+        private readonly IRepository<DetalleFactura> detalleFacturarepository;
+
+
+        public DetalleFacturaManager(IRepository<DetalleFactura> detalleFacturarepository)
         {
-            throw new NotImplementedException();
+            this.detalleFacturarepository = detalleFacturarepository;
         }
 
-        public Task<bool> DeleteAsync(DetalleFactura factura)
+        public async Task<bool> CreateAsync(DetalleFactura factura)
         {
-            throw new NotImplementedException();
+            try
+            {
+                detalleFacturarepository.Create(factura);
+                await detalleFacturarepository.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+
+            return true;
         }
 
-        public Task<bool> EditAsync(DetalleFactura factura)
+        public async Task<bool> DeleteAsync(DetalleFactura factura)
         {
-            throw new NotImplementedException();
+            try
+            {
+                detalleFacturarepository.Delete(factura);
+                await detalleFacturarepository.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+
+            return true;
         }
 
-        public Task<DetalleFactura> FindByIdAsync(int id)
+        public async Task<bool> EditAsync(DetalleFactura factura)
         {
-            throw new NotImplementedException();
+            try
+            {
+                detalleFacturarepository.Update(factura);
+                await detalleFacturarepository.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+
+            return true;
         }
 
-        public Task<IEnumerable<DetalleFactura>> GetAllAsync()
+        public async Task<DetalleFactura> FindByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var clientes = await detalleFacturarepository.FirstOrDefaultAsync(m => m.Id == id);
+            return clientes;
+        }
+
+        public  async Task<IEnumerable<DetalleFactura>> GetAllAsync()
+        {
+            return await detalleFacturarepository.All().ToListAsync();
         }
     }
 }
