@@ -21,5 +21,35 @@ namespace DataFitTests
             Assert.IsTrue(resultado);
 
         }
+
+
+        [TestMethod]
+        public void ValidarDireccionCliente()
+        {
+            //arrange
+            string direccion = "Col. Potrerrillos";
+
+            //acts
+            var resultado = clientes.ValidarDireccion(direccion);
+
+            //assert
+            Assert.IsTrue(resultado);
+
+        }
+
+        [TestMethod]
+        public void ValidarTelefonoCliente()
+        {
+            //arrange
+            int telefono = 333333232;
+
+            //acts
+            var resultado = clientes.ValidarTelefono(telefono);
+
+            //assert
+            Assert.IsTrue(resultado);
+
+        }
+
     }
 }
