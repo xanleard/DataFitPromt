@@ -20,6 +20,7 @@ namespace DataFit.DomainService
             if (descipcion != "")
             {
                 return true;
+
             }
             return false;
 
