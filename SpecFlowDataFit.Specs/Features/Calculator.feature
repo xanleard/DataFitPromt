@@ -13,3 +13,33 @@ Scenario: Add two numbers
 	And the second number is 70
 	When the two numbers are added
 	Then the result should be 120
+
+	Scenario: Total factura
+    Given  un primer valor entero 10
+    When  la factura sea mayor cero
+    Then el valor es 10
+
+	Scenario: Cantidad de productos
+    Given  un primer valor entero -1
+    When  Productos mayoa cero
+    Then el valor es -1
+
+	Scenario: Clientes activos
+    Given  El cliene  esta  "Activo"
+    When  el usuario decida realizar operacion.
+    Then el valor resultado es  1
+
+    	Scenario: Validar nombre Clientes 
+    Given  El nombre del cliene  es  "ClienteTest"
+    When  el usuario decida realizar operacion.
+    Then el valor resultado es  1
+
+		Scenario: Producto activos
+    Given  El producto  esta  "Inactivo"
+    When  el usuario decida realizar operacion.
+    Then el valor resultado es  0
+
+     	Scenario: Validar nombre Producto 
+    Given  El nombre del Producto  es  ""
+    When  el usuario decida realizar operacion.
+    Then el valor resultado es  0
