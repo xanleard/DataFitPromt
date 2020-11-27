@@ -95,6 +95,12 @@ namespace SpecFlowDataFit.Specs.Steps
             _validation.enables = p0;
         }
 
+        [When(@"el usuario decida realizar operacion cliente\.")]
+        public void WhenElUsuarioDecidaRealizarOperacionCliente_()
+        {
+            _result = _validation.ValidarStrings();
+        }
+
 
         [When(@"el usuario decida realizar operacion\.")]
         public void WhenElUsuarioDecidaRealizarOperacion_()

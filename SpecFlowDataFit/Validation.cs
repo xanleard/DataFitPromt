@@ -61,5 +61,15 @@ namespace SpecFlowDataFit
             }
             return 0;
         }
+
+        public int ValidarStrings()
+        {
+            //1 nombre valido  0 invalido
+            if (enables != "")
+            {
+                return 1;
+            }
+            return 0;
+        }
     }
 }
