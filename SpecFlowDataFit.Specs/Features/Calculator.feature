@@ -29,16 +29,15 @@ Scenario: Add two numbers
     When  el usuario decida realizar operacion.
     Then el valor resultado es  1
 
-    	Scenario: Validar nombre Clientes 
-    Given  El nombre del cliene  es  "ClienteTest"
-    When  el usuario decida realizar operacion.
-    Then el valor resultado es  1
-
 		Scenario: Producto activos
     Given  El producto  esta  "Inactivo"
     When  el usuario decida realizar operacion.
     Then el valor resultado es  0
 
+        	Scenario: Validar nombre Clientes 
+    Given  El nombre del cliene  es  "ClienteTest"
+    When  el usuario decida realizar operacion cliente.
+    Then el valor resultado es  1
      	Scenario: Validar nombre Producto 
     Given  El nombre del Producto  es  ""
     When  el usuario decida realizar operacion.
